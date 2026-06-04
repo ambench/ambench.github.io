@@ -1,0 +1,170 @@
+/* Smooth scroll for in-page anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.project-header {
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+  background: #fff;
+}
+
+.project-title {
+  max-width: 960px;
+  margin-bottom: 0.35rem;
+  color: #111827;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.project-authors {
+  margin-top: 0.75rem;
+  color: #4b5563;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+/* Ensure author names center under avatar by matching container width */
+.publication-authors .author-block {
+  width: 128px;
+  text-align: center;
+}
+
+/* Mobile author tiles use 96px avatars */
+.is-hidden-tablet .author-block {
+  width: 96px;
+  text-align: center;
+}
+
+/* Make sections fill the viewport height and center content */
+.fullheight-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Remove link hover effect for Code (Coming Soon) */
+.navbar-item.code-coming-soon,
+.navbar-item.code-coming-soon:hover,
+.navbar-item.code-coming-soon:focus,
+.navbar-item.code-coming-soon:active {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.navbar .navbar-menu .navbar-end .navbar-item.code-coming-soon:hover {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.link-block a.code-coming-soon,
+.link-block a.code-coming-soon:hover,
+.link-block a.code-coming-soon:focus,
+.link-block a.code-coming-soon:active,
+.link-block a.code-coming-soon:visited {
+  background-color: transparent !important;
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+
+/* Task video tile styling */
+.sim-tile {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(16, 24, 40, 0.08);
+  transition: transform 180ms ease, box-shadow 220ms ease;
+}
+
+.sim-tile > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.sim-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(16, 24, 40, 0.12);
+}
+
+/* Show controls on hover for task videos */
+.sim-task-video::-webkit-media-controls {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sim-task-video:hover::-webkit-media-controls {
+  opacity: 1;
+}
+
+/* Hide volume controls for task videos */
+.sim-task-video::-webkit-media-controls-volume-slider,
+.sim-task-video::-webkit-media-controls-mute-button {
+  display: none;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .sim-tile {
+    transition: none !important;
+  }
+  .sim-tile:hover {
+    transform: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .project-header {
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .project-title {
+    font-size: 1.8rem;
+  }
+}
