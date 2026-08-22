@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="560" viewBox="0 0 1500 560" role="img" aria-labelledby="title desc">
+  <title id="title">AM-Bench demonstration-to-evaluation workflow</title>
+  <desc id="desc">A canonical LeRobot dataset is recorded and validated, then adapted for ACT, Diffusion Policy, or OpenPI before standardized evaluation.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#314b5f"/>
+    </marker>
+    <style>
+      .title { font-family: sans-serif; font-size: 34px; font-weight: 700; fill: #152935; }
+      .label { font-family: sans-serif; font-size: 26px; font-weight: 700; fill: #152935; }
+      .small { font-family: sans-serif; font-size: 21px; font-weight: 400; fill: #314b5f; }
+      .arrow { stroke: #314b5f; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .box { stroke: #8aa1b1; stroke-width: 3; rx: 18; }
+    </style>
+  </defs>
+  <rect width="1500" height="560" fill="#ffffff"/>
+  <text class="title" x="750" y="48" text-anchor="middle">One canonical dataset, three maintained policy paths</text>
+
+  <rect class="box" x="45" y="195" width="245" height="145" fill="#eaf3f9"/>
+  <text class="label" x="168" y="245" text-anchor="middle">Record</text>
+  <text class="small" x="168" y="282" text-anchor="middle">120 Hz simulation</text>
+  <text class="small" x="168" y="312" text-anchor="middle">scripted or teleop</text>
+
+  <path class="arrow" d="M290 268 H380"/>
+  <rect class="box" x="380" y="195" width="275" height="145" fill="#fff4d6"/>
+  <text class="label" x="518" y="245" text-anchor="middle">Validate</text>
+  <text class="small" x="518" y="282" text-anchor="middle">LeRobot 0.4.4 / v3</text>
+  <text class="small" x="518" y="312" text-anchor="middle">metadata + 20 Hz view</text>
+
+  <path class="arrow" d="M655 268 H760"/>
+  <circle cx="790" cy="268" r="11" fill="#314b5f"/>
+
+  <path class="arrow" d="M790 268 V120 H880"/>
+  <rect class="box" x="880" y="68" width="290" height="105" fill="#dceef8"/>
+  <text class="label" x="1025" y="112" text-anchor="middle">ACT</text>
+  <text class="small" x="1025" y="145" text-anchor="middle">logical resampling</text>
+
+  <path class="arrow" d="M790 268 H880"/>
+  <rect class="box" x="880" y="215" width="290" height="105" fill="#e8e2f6"/>
+  <text class="label" x="1025" y="259" text-anchor="middle">Diffusion Policy</text>
+  <text class="small" x="1025" y="292" text-anchor="middle">UMI zarr conversion</text>
+
+  <path class="arrow" d="M790 268 V416 H880"/>
+  <rect class="box" x="880" y="363" width="290" height="105" fill="#fae8e8"/>
+  <text class="label" x="1025" y="407" text-anchor="middle">PI0 / PI0.5</text>
+  <text class="small" x="1025" y="440" text-anchor="middle">OpenPI export + norms</text>
+
+  <path class="arrow" d="M1170 120 H1245 V268 H1280"/>
+  <path class="arrow" d="M1170 268 H1280"/>
+  <path class="arrow" d="M1170 416 H1245 V268 H1280"/>
+  <rect class="box" x="1280" y="195" width="180" height="145" fill="#e7f3e8"/>
+  <text class="label" x="1370" y="245" text-anchor="middle">Evaluate</text>
+  <text class="small" x="1370" y="282" text-anchor="middle">results</text>
+  <text class="small" x="1370" y="312" text-anchor="middle">tracking + video</text>
+
+  <text class="small" x="518" y="384" text-anchor="middle">Source data stays immutable;</text>
+  <text class="small" x="518" y="414" text-anchor="middle">policy-specific formats are derived.</text>
+</svg>

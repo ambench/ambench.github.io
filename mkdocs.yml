@@ -1,0 +1,72 @@
+site_name: AM-Bench Documentation
+site_description: A modular simulation suite and benchmark for aerial manipulation policy learning
+site_url: https://ambench.github.io/docs/
+repo_name: AM-Bench on GitHub
+repo_url: https://github.com/ambench
+docs_dir: documentation
+
+theme:
+  name: readthedocs
+  highlightjs: true
+  navigation_depth: 4
+  collapse_navigation: false
+  titles_only: false
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+
+copyright: AM-Bench contributors, 2026
+
+nav:
+  - Project Website: https://ambench.github.io/
+  - Home: index.md
+  - Start Here:
+      - What is AM-Bench?: getting-started/overview.md
+      - Installation: getting-started/installation.md
+      - First Simulation: getting-started/first-run.md
+      - Choose a Workflow: getting-started/next-steps.md
+  - Benchmark:
+      - Design: benchmark/index.md
+      - Task Suite: benchmark/tasks.md
+      - Robot Platforms: benchmark/robots.md
+      - Policy-Control Interfaces: benchmark/interfaces.md
+      - Physics and Disturbances: benchmark/physics.md
+      - Experimental Findings: benchmark/results.md
+  - Workflows:
+      - Overview: workflows/index.md
+      - Collect Demonstrations: workflows/collect-demos.md
+      - Validate Datasets: workflows/validate-data.md
+      - Train and Evaluate: workflows/train-evaluate.md
+  - Policy Guides:
+      - Overview: policies/index.md
+      - Scripted Policies: policies/scripted-policies.md
+      - ACT: policies/act.md
+      - Diffusion Policy: policies/diffusion-policy.md
+      - OpenPI: policies/openpi.md
+  - Reference:
+      - Environment IDs: reference/environments.md
+      - Controllers: reference/controllers.md
+      - Observations and Actions: reference/interfaces.md
+      - Dataset Format: reference/dataset-format.md
+      - Evaluation Outputs: reference/evaluation.md
+      - Repository Map: reference/repository.md
+  - Extend AM-Bench:
+      - Extension Guide: extend/index.md
+      - Add a Task: extend/task.md
+      - Add a Robot: extend/robot.md
+      - Add a Controller: extend/controller.md
+      - Add a Policy: extend/policy.md
+  - Help:
+      - Troubleshooting: help/troubleshooting.md
+      - FAQ: help/faq.md
+  - Project:
+      - Paper and Citation: project/paper.md
+      - Credits: project/credits.md
+      - Resources: project/resources.md

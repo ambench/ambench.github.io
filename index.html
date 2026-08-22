@@ -13,17 +13,17 @@
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://aerial-manipulation-benchmark.github.io/">
+  <meta property="og:url" content="https://ambench.github.io/">
   <meta property="og:title" content="Aerial Manipulation Benchmark">
   <meta property="og:description" content="A Benchmark Suite for Evaluating Visuomotor Policies on Aerial Manipulation Tasks">
-  <meta property="og:image" content="https://aerial-manipulation-benchmark.github.io/static/images/teaser.png">
+  <meta property="og:image" content="https://ambench.github.io/static/images/overview.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://aerial-manipulation-benchmark.github.io/">
+  <meta property="twitter:url" content="https://ambench.github.io/">
   <meta property="twitter:title" content="Aerial Manipulation Benchmark">
   <meta property="twitter:description" content="A Benchmark Suite for Evaluating Visuomotor Policies on Aerial Manipulation Tasks">
-  <meta property="twitter:image" content="https://aerial-manipulation-benchmark.github.io/static/images/teaser.png">
+  <meta property="twitter:image" content="https://ambench.github.io/static/images/overview.png">
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
@@ -105,90 +105,39 @@
 <section class="section project-header">
   <div class="container is-max-desktop">
 
-  <!--
-  <div class="hero-head is-hidden-mobile">
-    <header class="navbar">
-      <div class="container is-size-5">
-        <div class="navbar-menu">
-          <div class="navbar-end">
-            <a class="navbar-item pl-4 pr-4" href="./AM-Bench.pdf">
-              <span class="icon" style="margin-right:5px;">
-                <img src="./static/images/pdf.svg" alt="PDF" />
-              </span>
-              <span>Paper</span>
-            </a>
-            <a class="navbar-item pl-4 pr-4" href="#">
-              <span class="icon" style="margin-right:5px;">
-                <img src="./static/images/arxiv.svg" alt="ArXiv" />
-              </span>
-              <span>arXiv</span>
-            </a>
-            <a class="navbar-item pl-4 pr-4" href="#">
-              <span class="icon" style="margin-right:5px;">
-                <img src="./static/images/documentation.svg" alt="Documentation" />
-              </span>
-              <span>Documentation</span>
-            </a>
-            <span class="navbar-item pl-4 pr-4 code-coming-soon">
-              <span class="button is-inverted is-large" style="opacity: 0.6;">
-                <span class="icon" style="margin-right:5px;">
-                  <img src="./static/images/github.svg" alt="GitHub" />
-                </span>
-                <span>Code (Coming Soon)</span>
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </header>
-  </div>
-  -->
-
     <h1 class="title publication-title project-title">
       AM-Bench: A Modular Simulation Suite and Benchmark for Aerial Manipulation Policy Learning
     </h1>
     <div class="publication-authors project-authors">
-      <span>Project under anonymous review.</span>
+      <p>
+        Yutong Wang<sup>*</sup>, Dongjae Lee<sup>*</sup>, Xiaofeng Guo<sup>*</sup>,
+        Yuanzhu Zhan, Yufei Jiang, Bavin Saravanan, Muqing Cao, Jia Xie,
+        Chenyang Mao, Sebastian Scherer, Junyi Geng, and Guanya Shi
+      </p>
+      <p class="project-affiliations">
+        Carnegie Mellon University · Pennsylvania State University · Kyung Hee University
+      </p>
+      <p class="equal-contribution"><sup>*</sup> Equal contribution</p>
     </div>
 
-      <!--
-      <div class="column has-text-centered is-hidden-tablet">
-        <div class="publication-links">
-          <span class="link-block">
-            <a href="./AM-Bench.pdf" class="external-link button is-normal is-rounded is-dark">
-              <span class="icon">
-                <img src="./static/images/pdf.svg" alt="PDF" style="width: 16px; height: 16px;" />
-              </span>
-              <span>Paper</span>
-            </a>
+    <div class="publication-links project-links">
+      <span class="link-block">
+        <a href="./docs/" class="external-link button is-normal is-rounded is-dark">
+          <span class="icon">
+            <img src="./static/images/documentation.svg" alt="" />
           </span>
-          <span class="link-block">
-            <a href="#" class="external-link button is-normal is-rounded is-dark">
-              <span class="icon">
-                <img src="./static/images/arxiv.svg" alt="ArXiv" style="width: 16px; height: 16px;" />
-              </span>
-              <span>arXiv</span>
-            </a>
+          <span>Documentation</span>
+        </a>
+      </span>
+      <span class="link-block">
+        <span class="button is-normal is-rounded is-light release-pending" aria-disabled="true">
+          <span class="icon">
+            <img src="./static/images/github.svg" alt="" />
           </span>
-          <span class="link-block">
-            <a href="#" class="external-link button is-normal is-rounded is-dark">
-              <span class="icon">
-                <img src="./static/images/documentation.svg" alt="Documentation" style="width: 16px; height: 16px;" />
-              </span>
-              <span>Documentation</span>
-            </a>
-          </span>
-          <span class="link-block">
-            <a href="#" class="external-link button is-normal is-rounded is-dark code-coming-soon" style="opacity: 0.6; background-color: transparent !important;">
-              <span class="icon">
-                <img src="./static/images/github.svg" alt="GitHub" />
-              </span>
-              <span>Code (Coming Soon)</span>
-            </a>
-          </span>
-        </div>
-      </div>
-      -->
+          <span>Code coming soon</span>
+        </span>
+      </span>
+    </div>
   </div>
 </section>
 
@@ -198,7 +147,6 @@
     <div class="has-text-centered" style="margin-top: 2rem;">
       <img src="./static/images/overview.png" alt="Overview" style="max-width: 100%; height: auto;" />
     </div>
-    <!-- <div class="content" style="margin-top: 2rem; margin-bottom: 2rem;"> -->
     <div class="content">
       <p>
       AM-Bench is designed to systematically evaluate aerial manipulation across diverse dimensions: 
@@ -213,31 +161,13 @@
   </div>
 </section>
 
-<section class="section has-background-white" id="video-overview">
-  <div class="container is-max-desktop">
-    <h2 class="title is-2 has-text-centered is-size-4-mobile">Video Overview</h2>
-    <div class="content has-text-centered" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <p class="is-size-5">
-        <!-- Video overview description will be added here -->
-      </p>
-    </div>
-    <div class="box pt-6 pb-6">
-      <div class="columns is-max-desktop is-centered">
-        <div class="column is-9 is-centered">
-          <h3 class="title is-3 has-text-centered is-size-5-mobile">Overview Video</h3>
-          <video src="./static/videos/overview.mp4" controls style="width: 100%; max-width: 100%;"></video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="section has-background-white" id="tasks" style="padding-top: 3rem; padding-bottom: 3rem;">
   <div class="container is-max-desktop">
     <h2 class="title is-2 has-text-centered is-size-4-mobile">Tasks</h2>
     <div class="content has-text-centered" style="margin-top: 1rem; margin-bottom: 2rem;">
       <p class="is-size-5">
-        <!-- Task description will be added here -->
+        Twelve tasks span instantaneous interaction, object transport, articulated objects,
+        and constrained contact.
       </p>
     </div>
 
@@ -358,7 +288,8 @@
     <h2 class="title is-2 has-text-centered is-size-4-mobile">Domain Randomization</h2>
     <div class="content has-text-centered" style="margin-top: 2rem; margin-bottom: 2rem;">
       <p class="is-size-5">
-        <!-- Domain randomization description will be added here -->
+        Configurable geometry, placement, textures, and object appearance expose policies to
+        controlled visual and spatial variation.
       </p>
     </div>
 
@@ -379,13 +310,13 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile" style="padding: 0; line-height: 0; overflow: hidden; background: transparent; aspect-ratio: 16 / 9;">
-          <img src="./static/images/lemon_harvesting_dr.png" alt="Press Button Domain Randomization Placeholder" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+          <img src="./static/images/lemon_harvesting_dr.png" alt="Randomized object placement in the lemon harvesting task" style="display: block; width: 100%; height: 100%; object-fit: cover;">
         </div>
       </div>
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile" style="padding: 0; line-height: 0; overflow: hidden; background: transparent; aspect-ratio: 16 / 9;">
-          <img src="./static/images/pull_lever.png" alt="Rotate Valve Domain Randomization Placeholder" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+          <img src="./static/images/pull_lever.png" alt="Randomized object color in the pull lever task" style="display: block; width: 100%; height: 100%; object-fit: cover;">
         </div>
       </div>
     </div>
@@ -397,7 +328,8 @@
     <h2 class="title is-2 has-text-centered is-size-4-mobile">Disturbances</h2>
     <div class="content has-text-centered" style="margin-top: 1rem; margin-bottom: 2rem;">
       <p class="is-size-5">
-        <!-- Disturbance description will be added here -->
+        Aerodynamic and actuation models test policy behavior under wind, ground effect,
+        near-wall interaction, and rotor saturation.
       </p>
     </div>
 
@@ -428,7 +360,8 @@
     <h2 class="title is-2 has-text-centered is-size-4-mobile">Embodiments</h2>
     <div class="content has-text-centered" style="margin-top: 2rem; margin-bottom: 2rem;">
       <p class="is-size-5">
-        <!-- Embodiments description will be added here -->
+        Four multirotor embodiments cover underactuated, fully actuated, and overactuated
+        aerial manipulation platforms under a shared benchmark interface.
       </p>
     </div>
 
@@ -491,9 +424,6 @@
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content has-text-centered">
-          <!-- <p>
-            Website template modified from <a href="https://umi-on-air.github.io/">UMI-on-Air</a>.
-          </p> -->
           <p>
             This website is licensed under a <a rel="license"
               href="http://creativecommons.org/licenses/by-sa/4.0/">Creative

@@ -1,0 +1,87 @@
+:root {
+  --amb-blue: #2f6f9f;
+  --amb-blue-soft: #eaf3f9;
+  --amb-gold-soft: #fff4d6;
+  --amb-pink-soft: #fae8e8;
+  --amb-border: #d9e2e8;
+}
+
+.wy-nav-content {
+  max-width: 1120px;
+}
+
+.amb-hero {
+  margin: 1.25rem 0 1.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--amb-border);
+  border-radius: 0.4rem;
+  background: #fff;
+}
+
+.amb-hero img,
+.amb-wide-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.amb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.amb-card {
+  padding: 1rem;
+  border: 1px solid var(--amb-border);
+  border-radius: 0.35rem;
+  background: #fff;
+}
+
+.amb-card h3 {
+  margin-top: 0;
+}
+
+.amb-note {
+  padding: 0.8rem 1rem;
+  border-left: 4px solid var(--amb-blue);
+  background: var(--amb-blue-soft);
+}
+
+.amb-task-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 1.5rem;
+}
+
+.amb-task-pair img {
+  width: 100%;
+  height: auto;
+}
+
+.amb-task-pair p {
+  display: contents;
+}
+
+table.docutils,
+.rst-content table {
+  width: 100%;
+}
+
+.rst-content table.docutils {
+  display: block;
+  overflow-x: auto;
+}
+
+code {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .amb-task-pair {
+    grid-template-columns: 1fr;
+  }
+}
