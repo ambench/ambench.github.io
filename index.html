@@ -7,6 +7,8 @@
     content="Aerial Manipulation Benchmark: A Benchmark Suite for Evaluating Visuomotor Policies on Aerial Manipulation Tasks">
   <meta name="keywords" content="Robotics, Aerial Manipulation, Benchmark, Visuomotor Policies">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://ambench.github.io/">
+  <link rel="icon" href="./static/images/favicon.svg" type="image/svg+xml">
   <title>
     Aerial Manipulation Benchmark
   </title>
@@ -28,81 +30,40 @@
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <style>
-    #domain-randomization .columns > .column {
-      flex: none;
-      width: 25%;
-    }
 
-    #domain-randomization .sim-tile {
-      aspect-ratio: auto !important;
-      height: auto !important;
-      padding: 0 !important;
-      line-height: 0;
-      overflow: visible !important;
-      background: transparent !important;
-    }
-
-    #domain-randomization img {
-      display: block !important;
-      width: 100% !important;
-      height: auto !important;
-      object-fit: contain !important;
-    }
-
-    #domain-randomization .columns > .column:nth-child(3)::after {
-      content: "Object Placement";
-      display: block;
-      margin-top: 0.25rem;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.5;
-    }
-
-    #domain-randomization .columns > .column:nth-child(4)::after {
-      content: "Object Color";
-      display: block;
-      margin-top: 0.25rem;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.5;
-    }
-
-    @media screen and (max-width: 768px) {
-      #domain-randomization .columns > .column {
-        width: 50%;
-      }
-    }
-  </style>
-
-  <script src="./static/js/index.js"></script>
-
-  <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-            }
-        };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-  <script>
-    window.addEventListener('DOMContentLoaded', function () {
-      var overviewImage = document.querySelector('#overview img');
-      if (overviewImage) {
-        overviewImage.addEventListener('error', function () {
-          overviewImage.src = './static/images/teaser.png';
-        }, { once: true });
-      }
-    });
-  </script>
+  <script src="./static/js/index.js" defer></script>
 </head>
 
 <body>
 
-<section class="section project-header">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<nav class="navbar project-navbar" role="navigation" aria-label="Project navigation">
+  <div class="container is-max-desktop">
+    <div class="navbar-brand">
+      <a class="navbar-item project-wordmark" href="#top" aria-label="AM-Bench home">AM-Bench</a>
+      <button class="navbar-burger" type="button" aria-label="Open navigation" aria-expanded="false" data-target="project-navbar-menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+    <div id="project-navbar-menu" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#overview">Overview</a>
+        <a class="navbar-item" href="#results">Results</a>
+        <a class="navbar-item" href="#tasks">Tasks</a>
+        <a class="navbar-item" href="#embodiments">Embodiments</a>
+        <a class="navbar-item" href="#citation">Citation</a>
+        <a class="navbar-item" href="./docs/">Documentation</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+
+<section class="section project-header" id="top">
   <div class="container is-max-desktop">
 
     <h1 class="title publication-title project-title">
@@ -130,7 +91,15 @@
         </a>
       </span>
       <span class="link-block">
-        <span class="button is-normal is-rounded is-light release-pending" aria-disabled="true">
+        <span class="button is-normal is-rounded is-light release-pending" aria-disabled="true" title="Paper link will be added after archival release">
+          <span class="icon">
+            <img src="./static/images/pdf.svg" alt="" />
+          </span>
+          <span>Paper coming soon</span>
+        </span>
+      </span>
+      <span class="link-block">
+        <span class="button is-normal is-rounded is-light release-pending" aria-disabled="true" title="Code link will be added at public release">
           <span class="icon">
             <img src="./static/images/github.svg" alt="" />
           </span>
@@ -141,11 +110,35 @@
   </div>
 </section>
 
+<section class="benchmark-summary" aria-label="Benchmark summary">
+  <div class="container is-max-desktop">
+    <div class="summary-grid">
+      <div class="summary-item"><strong>12</strong><span>Manipulation tasks</span></div>
+      <div class="summary-item"><strong>4</strong><span>Aerial platforms</span></div>
+      <div class="summary-item"><strong>4</strong><span>Learned policy families</span></div>
+      <div class="summary-item"><strong>5</strong><span>System design axes</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section overview-video-section" id="video">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2 has-text-centered is-size-4-mobile">Overview Video</h2>
+    <div class="video-placeholder" role="img" aria-label="Overview video coming soon">
+      <span class="video-placeholder-icon" aria-hidden="true">&#9654;</span>
+      <div>
+        <p class="video-placeholder-title">Overview video coming soon</p>
+        <p class="video-placeholder-copy">A concise tour of the tasks, aerial platforms, policy interfaces, and dynamics-critical evaluation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="overview">
   <div class="container is-max-desktop">
     <h2 class="title is-2 has-text-centered is-size-4-mobile">Overview</h2>
     <div class="has-text-centered" style="margin-top: 2rem;">
-      <img src="./static/images/overview.png" alt="Overview" style="max-width: 100%; height: auto;" />
+      <img src="./static/images/overview.png" width="2000" height="854" alt="AM-Bench overview showing aerial platforms, manipulation tasks, policy interfaces, and physical effects" style="max-width: 100%; height: auto;" />
     </div>
     <div class="content">
       <p>
@@ -154,10 +147,46 @@
       (FA-Hexa, Omni-Hexa) systems and different low-level controllers; 
       (Center) a diverse suite of manipulation tasks with domain randomization in spatial poses and textures; 
       (Right) various visuomotor policy architectures and realistic physical constraints, including 
-      aerodynamic disturbances (ground/wall effects) and actuator saturation. $u$, $\phi(\cdot, \cdot)$, $s$, $a$, $\pi(\cdot)$, $o$ refer to control input, controller, 
+      aerodynamic disturbances (ground/wall effects) and actuator saturation. <i>u</i>,
+      <i>&phi;</i>(&middot;, &middot;), <i>s</i>, <i>a</i>, <i>&pi;</i>(&middot;), and <i>o</i> refer to control input, controller,
       state, high-level action, policy, and observation, respectively.
       </p>
     </div>
+  </div>
+</section>
+
+<section class="section results-section" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2 has-text-centered is-size-4-mobile">Headline Results</h2>
+    <p class="section-lead">
+      The current paper evaluates each high-level policy over 30 rollouts on each of 12 tasks using
+      FA-Hexa and the EE-target IK&ndash;PID interface. These figures are a fixed paper snapshot, not a live leaderboard.
+    </p>
+    <div class="result-grid">
+      <article class="result-card">
+        <p class="result-value">52.22%</p>
+        <h3>Macro task success</h3>
+        <p>Best reported result, achieved by PI0.5 after multi-task and task-specific fine-tuning.</p>
+      </article>
+      <article class="result-card">
+        <p class="result-value">67.31%</p>
+        <h3>Macro subtask completion</h3>
+        <p>Best reported intermediate-progress result under the same evaluation setting.</p>
+      </article>
+      <article class="result-card">
+        <p class="result-value">+46.4 pp</p>
+        <h3>AM-domain adaptation gain</h3>
+        <p>PI0.5 macro success improvement from zero-shot evaluation to multi-task fine-tuning.</p>
+      </article>
+      <article class="result-card">
+        <p class="result-value">48%</p>
+        <h3>Near-ground RMSE reduction</h3>
+        <p>Ground-effect modeling reduced simulation-to-real EE-height RMSE from 1.91 cm to 0.99 cm in the tested interval.</p>
+      </article>
+    </div>
+    <p class="has-text-centered results-link">
+      <a href="./docs/benchmark/results/">Read the experimental findings and evaluation scope&nbsp;&rarr;</a>
+    </p>
   </div>
 </section>
 
@@ -174,8 +203,8 @@
     <div class="columns is-multiline is-mobile is-variable is-2" style="margin-top: 1.5rem;">
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/press_button.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/press_button.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 1: Press Button</p>
@@ -183,8 +212,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/peg_in_hole.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/peg_in_hole.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 2: Peg in Hole</p>
@@ -192,8 +221,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/frame_assembly.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/frame_assembly.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 3: Frame Assembly</p>
@@ -201,8 +230,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/cabinet_pick_and_place.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/cabinet_pick_and_place.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 4: Cabinet Pick and Place</p>
@@ -210,8 +239,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/lemon_harvesting.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/lemon_harvesting.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 5: Lemon Harvesting</p>
@@ -219,8 +248,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/rotate_valve.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/rotate_valve.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 6: Rotate Valve</p>
@@ -228,8 +257,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/push_slider.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/push_slider.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 7: Push Slider</p>
@@ -237,8 +266,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/pull_lever.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/pull_lever.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 8: Pull Lever</p>
@@ -246,8 +275,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/open_door.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/open_door.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 9: Open Door</p>
@@ -255,8 +284,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/wipe_window.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/wipe_window.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 10: Wipe Window</p>
@@ -264,8 +293,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/toss_ball.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/toss_ball.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 11: Toss Ball</p>
@@ -273,8 +302,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/ndt.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/ndt.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Task 12: NDT</p>
@@ -296,27 +325,27 @@
     <div class="columns is-multiline is-mobile is-variable is-2" style="margin-top: 1.5rem;">
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile" style="padding: 0; line-height: 0; overflow: hidden; background: transparent; aspect-ratio: 16 / 9;">
-          <img src="./static/images/press_button_dr.png" alt="Press Button Domain Randomization" style="display: block; width: 100%; height: auto;">
+          <img src="./static/images/press_button_dr.png" width="1000" height="1000" alt="Press Button Domain Randomization" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Wall Texture</p>
       </div>
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile" style="padding: 0; line-height: 0; overflow: hidden; background: transparent; aspect-ratio: 16 / 9;">
-          <img src="./static/images/rotate_valve_dr.png" alt="Rotate Valve Domain Randomization" style="display: block; width: 100%; height: auto;">
+          <img src="./static/images/rotate_valve_dr.png" width="1000" height="1000" alt="Rotate Valve Domain Randomization" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto;">
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Wall Tilt</p>
       </div>
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile" style="padding: 0; line-height: 0; overflow: hidden; background: transparent; aspect-ratio: 16 / 9;">
-          <img src="./static/images/lemon_harvesting_dr.png" alt="Randomized object placement in the lemon harvesting task" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+          <img src="./static/images/lemon_harvesting_dr.png" width="1000" height="1000" alt="Randomized object placement in the lemon harvesting task" loading="lazy" decoding="async" style="display: block; width: 100%; height: 100%; object-fit: cover;">
         </div>
       </div>
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile" style="padding: 0; line-height: 0; overflow: hidden; background: transparent; aspect-ratio: 16 / 9;">
-          <img src="./static/images/pull_lever.png" alt="Randomized object color in the pull lever task" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+          <img src="./static/images/pull_lever.png" width="1000" height="1000" alt="Randomized object color in the pull lever task" loading="lazy" decoding="async" style="display: block; width: 100%; height: 100%; object-fit: cover;">
         </div>
       </div>
     </div>
@@ -336,8 +365,8 @@
     <div class="columns is-multiline is-mobile is-variable is-2" style="margin-top: 1.5rem;">
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/wind_disturbance_combined.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/wind_disturbance_combined.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Wind Disturbance</p>
@@ -345,8 +374,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/ground_effect_disturbance.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/ground_effect_disturbance.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Ground Effect Disturbance</p>
@@ -368,8 +397,8 @@
     <div class="columns is-multiline is-mobile is-variable is-2" style="margin-top: 1.5rem;">
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/video-scene_with_ee_base-env0-eps0_emb4.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/video-scene_with_ee_base-env0-eps0_emb4.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">UA-Quad</p>
@@ -377,8 +406,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/video-scene_with_ee_base-env0-eps0_emb2.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/video-scene_with_ee_base-env0-eps0_emb2.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">UA-Hexa</p>
@@ -386,8 +415,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/video-scene_with_ee_base-env0-eps0_emb1.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/video-scene_with_ee_base-env0-eps0_emb1.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">FA-Hexa</p>
@@ -395,8 +424,8 @@
 
       <div class="column is-half-desktop is-half-tablet is-half-mobile">
         <div class="sim-tile">
-          <video class="sim-task-video" autoplay muted loop playsinline controls>
-            <source src="./static/videos/video-scene_with_ee_base-env0-eps0_emb3.mp4" type="video/mp4">
+          <video class="sim-task-video" muted loop playsinline preload="none" controls>
+            <source data-src="./static/videos/video-scene_with_ee_base-env0-eps0_emb3.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered is-size-6 has-text-weight-semibold" style="margin-top: 0.25rem;">Omni-Hexa</p>
@@ -409,7 +438,7 @@
   <div class="container is-max-desktop">
     <h2 class="title is-2 has-text-centered has-text-white is-size-4-mobile">System Diagram</h2>
     <div class="has-text-centered" style="margin-top: 2rem;">
-      <img src="./static/images/system_pipeline.png" alt="System Diagram" style="max-width: 100%; height: auto;" />
+      <img src="./static/images/system_pipeline.png" width="2000" height="768" alt="System diagram connecting environments, robots, controllers, policies, and physical effects" loading="lazy" decoding="async" style="max-width: 100%; height: auto;" />
     </div>
     <div class="content" style="margin-top: 2rem; margin-bottom: 2rem;">
       <p class="is-size-5" style="text-align: left; color: white;">
@@ -419,14 +448,58 @@
   </div>
 </section>
 
+<section class="section leaderboard-section" id="leaderboard">
+  <div class="container is-max-desktop">
+    <div class="placeholder-panel">
+      <div>
+        <p class="eyebrow">Community benchmark</p>
+        <h2 class="title is-3 is-size-4-mobile">Leaderboard coming soon</h2>
+        <p>
+          The public leaderboard will compare submissions under matched task, embodiment,
+          controller, disturbance, rollout, and seed settings. The current paper results remain
+          available as a fixed experimental snapshot.
+        </p>
+      </div>
+      <span class="button is-rounded is-light release-pending" aria-disabled="true">Leaderboard coming soon</span>
+    </div>
+  </div>
+</section>
+
+<section class="section citation-section" id="citation">
+  <div class="container is-max-desktop">
+    <h2 class="title is-2 has-text-centered is-size-4-mobile">Citation</h2>
+    <p class="section-lead">
+      Please use the provisional citation below. The archival paper link and publication record
+      will replace it when they become available.
+    </p>
+    <div class="citation-block">
+      <button class="button is-small citation-copy" type="button" data-copy-target="citation-bibtex">Copy BibTeX</button>
+      <pre id="citation-bibtex"><code>@article{wang2026ambench,
+  title  = {{AM-Bench}: A Modular Simulation Suite and Benchmark for Aerial Manipulation Policy Learning},
+  author = {Wang, Yutong and Lee, Dongjae and Guo, Xiaofeng and Zhan, Yuanzhu and
+            Jiang, Yufei and Saravanan, Bavin and Cao, Muqing and Xie, Jia and
+            Mao, Chenyang and Scherer, Sebastian and Geng, Junyi and Shi, Guanya},
+  year   = {2026},
+  note   = {Preprint}
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
 <footer class="footer">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content has-text-centered">
           <p>
+            Questions or collaboration inquiries can be directed through the
+            <a href="https://github.com/ambench">AM-Bench GitHub organization</a>.
+          </p>
+          <p>
             This website is licensed under a <a rel="license"
-              href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+              href="https://creativecommons.org/licenses/by-sa/4.0/">Creative
               Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
         </div>
