@@ -4,7 +4,7 @@ This repository publishes the AM-Bench project website at
 <https://ambench.github.io/>.
 
 The repository root currently publishes a minimal coming-soon page. Public
-MkDocs source is stored in `docs/` and is published at
+Zensical documentation source is stored in `docs/` and is published at
 <https://ambench.github.io/docs/>. This repository is the authoritative source
 for the deployed documentation site.
 
