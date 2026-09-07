@@ -31,9 +31,13 @@ Clone the current source repository beside the Isaac Lab checkout:
 
 ```bash
 cd <workspace-root>
-git clone --recurse-submodules https://github.com/ambench/ambench.git
+git clone https://github.com/ambench/ambench.git
 cd ambench
 ```
+
+The first-run EE environment does not require any submodules. Initialize only
+the optional integration you need using the commands later on this page or in
+the corresponding policy guide.
 
 The commands in these docs assume this layout:
 
