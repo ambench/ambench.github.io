@@ -27,19 +27,28 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install project website dependencies
+        run: npm ci
+
+      - name: Build project website
+        run: npm run verify:build
+
       - name: Install Zensical
         run: python -m pip install "zensical==0.0.58"
 
       - name: Build documentation
         run: |
           zensical build --strict
-          mkdir -p _site
-          mv site _site/docs
+          mv site dist/docs
 
-      - name: Assemble project website
-        run: |
-          cp index.html _site/index.html
-          touch _site/.nojekyll
+      - name: Finalize Pages artifact
+        run: touch dist/.nojekyll
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
@@ -47,7 +56,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: _site
+          path: dist
 
   deploy:
     environment:
