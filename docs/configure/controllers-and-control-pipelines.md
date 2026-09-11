@@ -1,6 +1,6 @@
 # Configure Controllers and Control Pipelines
 
-`ControlPipelineCfg` combines a public `ActionMode`, a controller configuration, and optional Pyroki IK. `RobotProfileCfg` binds that pipeline to a robot specification. Select or tune the complete composition rather than treating the environment ID's controller token as an isolated switch.
+`ControlPipelineCfg` combines a public `ActionMode`, a controller configuration, and Pyroki IK configuration when the selected pipeline resolves end-effector targets through IK. `RobotProfileCfg` binds that pipeline to a robot specification. Select or tune the complete composition rather than treating the environment ID's controller token as an isolated switch.
 
 ## Maintained compositions
 
@@ -37,6 +37,6 @@ Treat the values in the reusable profile as a starting configuration, not a univ
 
 ## Dependencies and validation
 
-Physical EE-target IK profiles require the optional Pyroki installation. The whole-body MPC profile also requires acados and generates solver code under its configured build directory. Follow [Installation](../getting-started/installation.md) for those dependencies.
+Pyroki and acados are installed by the standard setup procedure. Physical EE-target IK profiles use Pyroki. The whole-body MPC profile uses acados and generates solver code under its configured build directory. Follow [Installation](../getting-started/installation.md) before selecting either pipeline.
 
 After changing a controller or IK constraint, validate the selected task with one environment and inspect controller telemetry before scaling. The public `ControllerOutput` contract and maintained controller inventory are in [Controllers](../reference/controllers.md). Physical limits and effect ordering are covered in [Physics, Disturbances, and Randomization](physics-disturbances-and-randomization.md).

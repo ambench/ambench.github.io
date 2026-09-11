@@ -1,15 +1,16 @@
 # Verify Installation
 
-This tutorial verifies package registration, scene creation, reset, and stepping with one bounded headless run. It uses the EE-only oracle so the check does not depend on Pyroki or acados.
+This tutorial verifies package registration, scene creation, reset, and stepping with one bounded headless run. It starts with the EE-only oracle to isolate scene and task setup before testing a physical robot profile.
 
 !!! info "Prerequisites"
 
-    Complete [Installation](installation.md), then run every command below from the AM-Bench repository root.
+    Complete [Installation](installation.md), then run every command below from the AM-Bench repository root. In a new shell, source both the Isaac Lab environment and `scripts/setup/activate_dependencies.sh`.
 
 ## 1. Activate the environment and inspect the GPU
 
 ```bash
 source ../IsaacLab/env_isaaclab/bin/activate
+source scripts/setup/activate_dependencies.sh
 nvidia-smi
 ```
 
@@ -46,6 +47,6 @@ The verification passes when:
 
 !!! note "Validation boundary"
 
-    The zero-action agent is not expected to solve the task. A successful smoke test proves that this environment can be created and stepped on the current machine; it does not validate task success, policy quality, optional physical-robot dependencies, or every registered environment.
+    The zero-action agent is not expected to solve the task. A successful smoke test proves that this environment can be created and stepped on the current machine; it does not validate task success, policy quality, physical-robot controller behavior, or every registered environment.
 
 See [Troubleshooting](../help/troubleshooting.md) if the process fails before stepping or does not shut down cleanly. Once the check passes, continue with [Run an Environment](../workflows/run-environment.md).

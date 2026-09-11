@@ -15,7 +15,7 @@ The command starts Isaac Sim headlessly and prints one row per registered AM-Ben
 
 ## Choose an ID
 
-Start with `PressButton-Am-EE-Abs-PID-Direct-v0` when verifying task registration and scene stepping. It uses the EE-only oracle and does not require Pyroki or acados.
+Start with `PressButton-Am-EE-Abs-PID-Direct-v0` when verifying task registration and scene stepping. The EE-only oracle isolates task setup from physical-robot kinematics and dynamics during this first check.
 
 For another experiment, select an exact ID from the command output. The usual pattern is:
 

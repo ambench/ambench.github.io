@@ -1,6 +1,6 @@
 # Repository Map
 
-AM-Bench separates simulation, imitation learning, command-line workflows, and optional third-party integrations.
+AM-Bench separates simulation, imitation learning, command-line workflows, and third-party integrations.
 
 ```text
 ambench/
@@ -8,7 +8,7 @@ ambench/
   source/ambench_learn/     learned-policy and data adapters
   scripts/environments/     registration, smoke tests, teleoperation
   scripts/data/             recording, validation, format conversion
-  ext/                      optional external dependencies
+  ext/                      third-party dependencies and policy integrations
 ```
 
 ## Simulation package
@@ -36,8 +36,10 @@ ambench/
 | `policies/dp/` | Diffusion Policy integration and UMI dependency |
 | `policies/pi/` | OpenPI client-side evaluation adapter |
 
-The `ext/pyroki`, `ext/acados`, and `ext/openpi` trees are external integrations.
-Changes to them should be isolated from ordinary task or documentation work.
+The standard installation initializes `ext/pyroki` and `ext/acados` for IK and
+whole-body MPC. `ext/openpi` supplies the separately managed OpenPI policy
+environment. Changes to these third-party trees should be isolated from ordinary
+task or documentation work.
 
 Development-only datasets, checkpoints, videos, experiment wrappers, and generated build outputs are not part of the public package boundary.
 

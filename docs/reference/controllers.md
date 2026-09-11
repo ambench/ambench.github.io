@@ -1,6 +1,6 @@
 # Controllers
 
-Controllers live in `source/ambench/ambench/controllers/`. A `ControlPipelineCfg` combines the public action mode, a controller configuration, and optional Pyroki IK settings; a `RobotProfileCfg` binds that pipeline to one robot.
+Controllers live in `source/ambench/ambench/controllers/`. A `ControlPipelineCfg` combines the public action mode, a controller configuration, and Pyroki IK settings for IK-based pipelines; a `RobotProfileCfg` binds that pipeline to one robot.
 
 ## Maintained controller families
 
@@ -32,6 +32,6 @@ For multirotors, `BaseController.compute(...)` applies inverse allocation and sa
 
 ## Dependencies
 
-Physical EE-target profiles require the `ext/pyroki` integration. Whole-body MPC additionally requires acados and its generated solver build. The EE oracle is the appropriate first check when those optional dependencies are not installed.
+Pyroki and acados are part of the standard AM-Bench installation. Physical EE-target IK profiles use `ext/pyroki`; whole-body MPC uses acados and its generated solver build. The EE oracle remains the appropriate first check for separating task setup from physical-robot controller behavior.
 
 Exact reusable gains, IK constraints, MPC settings, rotor actuator fields, and aerodynamic defaults are listed in [Configuration Reference](configuration.md). Use [Controllers and Control Pipelines](../configure/controllers-and-control-pipelines.md) for selection and tuning guidance.
