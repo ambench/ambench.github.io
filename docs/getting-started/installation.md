@@ -53,7 +53,6 @@ From the AM-Bench repository root:
 ```bash
 source ../IsaacLab/env_isaaclab/bin/activate
 ./scripts/setup/install.sh
-source scripts/setup/activate_dependencies.sh
 ```
 
 The installer initializes the Pyroki and acados submodules, installs the maintained
@@ -61,9 +60,25 @@ CPU JAX stack and Pyroki, builds the acados libraries and installs its Python
 interface, then installs `ambench` and `ambench_learn` from their `source/` paths.
 The acados build remains machine-local under `ext/acados/build/`.
 
-Source `scripts/setup/activate_dependencies.sh` in each new shell before running
-AM-Bench. It selects CPU JAX for Pyroki and sets `ACADOS_SOURCE_DIR` and the
-acados library path for the current checkout.
+## 4. Configure the dependency environment
+
+Add these lines to `~/.bashrc`, replacing `/absolute/path/to/ambench` with the
+absolute path to this checkout:
+
+```bash
+export JAX_PLATFORMS=cpu
+export ACADOS_SOURCE_DIR="/absolute/path/to/ambench/ext/acados"
+export LD_LIBRARY_PATH="$ACADOS_SOURCE_DIR/lib:$ACADOS_SOURCE_DIR/build:$LD_LIBRARY_PATH"
+```
+
+Load the changes in the current terminal:
+
+```bash
+source ~/.bashrc
+```
+
+These settings run Pyroki's JAX computations on CPU while Isaac Sim uses the
+NVIDIA GPU, and make the acados libraries available to its Python interface.
 
 The simulation package provides environments, robots, controllers, recording, and scripted policies. The learning package provides learned-policy and dataset utilities.
 

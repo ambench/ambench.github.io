@@ -4,13 +4,12 @@ This tutorial verifies package registration, scene creation, reset, and stepping
 
 !!! info "Prerequisites"
 
-    Complete [Installation](installation.md), then run every command below from the AM-Bench repository root. In a new shell, source both the Isaac Lab environment and `scripts/setup/activate_dependencies.sh`.
+    Complete [Installation](installation.md), including the dependency exports in `~/.bashrc`, then run every command below from the AM-Bench repository root.
 
 ## 1. Activate the environment and inspect the GPU
 
 ```bash
 source ../IsaacLab/env_isaaclab/bin/activate
-source scripts/setup/activate_dependencies.sh
 nvidia-smi
 ```
 

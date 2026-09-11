@@ -11,7 +11,6 @@ Activate the Isaac Lab environment and reinstall both editable packages from the
 ```bash
 source ../IsaacLab/env_isaaclab/bin/activate
 ./scripts/setup/install.sh
-source scripts/setup/activate_dependencies.sh
 ```
 
 Do not invoke `../IsaacLab/env_isaaclab/bin/python` without activation. The activation script also configures the Isaac runtime environment.
@@ -49,21 +48,22 @@ Run one heavy Isaac process at a time on a single-GPU machine. Begin with `--num
 
 ### Pyroki or JAX selects the wrong backend
 
-The maintained integration uses JAX on CPU while Isaac Sim uses the NVIDIA GPU. Source the maintained dependency environment before starting Python:
+The maintained integration uses JAX on CPU while Isaac Sim uses the NVIDIA GPU. Confirm that the installation export is present in the current shell:
 
 ```bash
-source scripts/setup/activate_dependencies.sh
+export JAX_PLATFORMS=cpu
 ```
 
 Confirm the NumPy, JAX, and JAXlib versions specified by [Installation](../getting-started/installation.md). Passing an EE-oracle task does not validate physical-manipulator IK.
 
 ### The acados solver cannot load
 
-Rerun the standard installer if the acados build or Python interface is missing, then source the maintained dependency environment in the same shell:
+Rerun the standard installer if the acados build or Python interface is missing, then set both runtime paths in the same shell:
 
 ```bash
 ./scripts/setup/install.sh
-source scripts/setup/activate_dependencies.sh
+export ACADOS_SOURCE_DIR="/absolute/path/to/ambench/ext/acados"
+export LD_LIBRARY_PATH="$ACADOS_SOURCE_DIR/lib:$ACADOS_SOURCE_DIR/build:$LD_LIBRARY_PATH"
 ```
 
 Generated solver code is machine-local. Rebuild it on the target machine instead of copying a build directory from another system.
