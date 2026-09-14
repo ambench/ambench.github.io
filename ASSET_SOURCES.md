@@ -17,6 +17,9 @@ The font files are self-hosted to avoid a runtime dependency on Google Fonts.
 
 The 46 clips and matching posters in `public/static/publication/` illustrate
 AM-Bench tasks, embodiments, physical effects, and policy comparisons.
+They declare limited-range BT.709 primaries, transfer, and matrix metadata. The
+tags are added by stream-copy remuxing, so the encoded audio and video streams
+are not re-encoded.
 
 The ACT Lemon Harvesting clip is a failed execution. DP and π₀.₅ Lemon Harvesting
 clips show successful policy-generated trajectory replays. Policy–control demos

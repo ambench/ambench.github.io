@@ -30,7 +30,7 @@ All five switches default to `False` in `BaseEnvCfg`.
 | `enable_observation_noise` | Applies `observation_noise_model` | If unset, additive Gaussian standard deviation `0.002` plus absolute-bias standard deviation `0.0001` |
 | `enable_saturation` | Enforces rotor thrust limits | Required when rotor actuator dynamics are configured |
 | `enable_aerodynamic_effects` | Enables ground effect, near-wall effect, and drag | Requires a physical profile with aerodynamic configuration |
-| `enable_wind_effect` | Enables the implemented wind preset | Current controller implementation uses a constant world-frame force |
+| `enable_wind_effect` | Applies `robot.multirotor.aerodynamics.wind_force_w` | Constant world-frame force; the default vector is `(0.0, 0.0, 0.0)` N |
 
 Task reset and prestartup randomization lives in each task's `EventCfg`; see [Tasks and Scenes](../configure/tasks-and-scenes.md) for the maintained task-specific surfaces.
 

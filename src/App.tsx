@@ -21,6 +21,7 @@ import {
 } from "./data/effectSources";
 import { experiment1RolloutSources, experiment2RolloutSources } from "./data/rolloutSources";
 import { releaseResources } from "./data/media";
+import { useUrlChoice } from "./hooks/useUrlChoice";
 
 const navItems = [
   { id: "tasks", label: "Tasks" },
@@ -44,31 +45,6 @@ const authors = [
   { name: "Junyi Geng", affiliation: "2", href: "https://ari-psu.github.io/team/junyi_geng/" },
   { name: "Guanya Shi", affiliation: "1", href: "https://www.gshi.me/" },
 ];
-
-
-function useUrlChoice<const T extends string>(
-  key: string,
-  allowedValues: readonly T[],
-  fallback: T,
-) {
-  const [value, setValue] = useState<T>(() => {
-    const requested = new URLSearchParams(window.location.search).get(key);
-    return requested && allowedValues.includes(requested as T) ? requested as T : fallback;
-  });
-
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    if (value === fallback) url.searchParams.delete(key);
-    else url.searchParams.set(key, value);
-    window.history.replaceState(
-      window.history.state,
-      "",
-      `${url.pathname}${url.search}${url.hash}`,
-    );
-  }, [fallback, key, value]);
-
-  return [value, setValue] as const;
-}
 
 function useInitialHashTarget() {
   useEffect(() => {
@@ -130,19 +106,65 @@ function VideoFrame({
   src,
   label,
   className = "",
+  describedBy,
 }: {
   src: string;
   label: string;
   className?: string;
+  describedBy?: string;
 }) {
   const { ref, isNear } = useNearViewport<HTMLDivElement>();
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => setIsPlaying(false), [src]);
+
+  const togglePlayback = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      try {
+        await video.play();
+      } catch {
+        setIsPlaying(false);
+      }
+    } else {
+      video.pause();
+    }
+  };
+
   return (
-    <div ref={ref} className={`video-frame ${className}`}>
+    <div ref={ref} className={`video-frame ${isPlaying ? "is-playing" : "is-paused"} ${className}`}>
       {isNear ? (
-        <video key={src} onError={() => setFailedSrc(src)} muted loop playsInline controls preload="none" poster={src.replace(/\.mp4$/, ".jpg")} aria-label={label}>
-          <source src={src} type="video/mp4" />
-        </video>
+        <>
+          <video
+            ref={videoRef}
+            key={src}
+            onError={() => setFailedSrc(src)}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            muted
+            loop
+            playsInline
+            preload="none"
+            poster={src.replace(/\.mp4$/, ".jpg")}
+            aria-label={label}
+            aria-describedby={describedBy}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+          {failedSrc !== src && (
+            <button
+              className="video-toggle"
+              type="button"
+              aria-label={`${isPlaying ? "Pause" : "Play"} ${label}`}
+              onClick={togglePlayback}
+            >
+              <span aria-hidden="true">{isPlaying ? "Ⅱ" : "▶"}</span>
+            </button>
+          )}
+        </>
       ) : (
         <div className="video-skeleton" aria-hidden="true" />
       )}
@@ -170,14 +192,15 @@ function SectionIntro({
 }
 
 function TaskCard({ task, number }: { task: Task; number: string }) {
+  const captionId = `task-${task.id}-caption`;
   return (
     <article className="task-card">
-      <VideoFrame src={task.video} label={`${task.name} task rollout`} />
+      <VideoFrame src={task.video} label={`${task.name} task rollout`} describedBy={captionId} />
       <div className="task-card-copy">
         <span>{number}</span>
         <div>
-          <h3><a href="/docs/configure/tasks-and-scenes/">{task.name}</a></h3>
-          <p>{task.description}</p>
+          <h3>{task.name}</h3>
+          <p id={captionId}>{task.description}</p>
         </div>
       </div>
     </article>
@@ -185,16 +208,37 @@ function TaskCard({ task, number }: { task: Task; number: string }) {
 }
 
 function TaskCatalog() {
-  const [openGroups, setOpenGroups] = useState(() => new Set(taskGroups.map((group) => group.id)));
+  const groupStates = [
+    "none",
+    "instantaneous",
+    "transport",
+    "contact",
+    "instantaneous+transport",
+    "instantaneous+contact",
+    "transport+contact",
+    "all",
+  ] as const;
+  const [groupState, setGroupState] = useUrlChoice("taskGroups", groupStates, "instantaneous");
+  const openGroups = new Set(
+    groupState === "all"
+      ? taskGroups.map((group) => group.id)
+      : groupState === "none"
+        ? []
+        : groupState.split("+"),
+  );
   let taskOffset = 0;
 
   const toggleGroup = (groupId: string) => {
-    setOpenGroups((current) => {
-      const next = new Set(current);
-      if (next.has(groupId)) next.delete(groupId);
-      else next.add(groupId);
-      return next;
-    });
+    const next = new Set(openGroups);
+    if (next.has(groupId)) next.delete(groupId);
+    else next.add(groupId);
+    const ordered = taskGroups.map((group) => group.id).filter((id) => next.has(id));
+    const nextState = ordered.length === 0
+      ? "none"
+      : ordered.length === taskGroups.length
+        ? "all"
+        : ordered.join("+");
+    setGroupState(nextState as typeof groupState);
   };
 
   return (
@@ -247,9 +291,9 @@ function TaskCatalog() {
 const effectPanelIds = effectPanels.map((panel) => panel.id);
 const effectSourceIds = effectSources.map((source) => source.id);
 
-function EffectMediaFrame({ source }: { source: EffectSource }) {
+function EffectMediaFrame({ source, describedBy }: { source: EffectSource; describedBy?: string }) {
   if (source.mediaPath) {
-    return <VideoFrame src={source.mediaPath} label={`${source.label} physical-effect capture`} />;
+    return <VideoFrame src={source.mediaPath} label={`${source.label} physical-effect capture`} describedBy={describedBy} />;
   }
   return (
     <div
@@ -348,11 +392,10 @@ function PhysicalEffectsExplorer() {
         className="effect-workbench"
         role="tabpanel"
         aria-labelledby={`effect-panel-tab-${panel.id}`}
-        tabIndex={0}
       >
-        <div className={`effect-viewer ${panel.id === "actuator-constraints" ? "actuator-comparison" : ""}`} aria-live="polite">
+        <div className={`effect-viewer ${panel.id === "actuator-constraints" ? "actuator-comparison" : ""}`}>
           <div className="effect-stage has-media">
-            <EffectMediaFrame source={selectedSource} />
+            <EffectMediaFrame source={selectedSource} describedBy="effect-evidence-copy" />
           </div>
           <div className="effect-evidence">
             {description && <>
@@ -381,7 +424,7 @@ function PhysicalEffectsExplorer() {
 
         </div>}
 
-            <p className="effect-evidence-copy">
+            <p className="effect-evidence-copy" id="effect-evidence-copy">
               {description ? effectInterpretations[selectedSource.id] : evidenceSource.evidence}
             </p>
 
@@ -402,17 +445,17 @@ function ExperimentOne() {
       <div className="policy-trends">
         {([{ key: "macroSuccess", label: "Success" }, { key: "macroSubtask", label: "Subtask completion" }] as const).map(metric => <div key={metric.key}>
           <svg className="policy-plot" viewBox="0 0 300 310" role="img" aria-label={`${metric.label} by adaptation stage. ${exp1Policies.map(p => `${p.label}: ${p[metric.key]}%`).join("; ")}`}>
-            <text x="36" y="18" fontSize="14" fontWeight="600" fill="#24364b">{metric.label} (%)</text>
+            <text x="36" y="18" fontSize="14" fontWeight="600" fill="#181a1b">{metric.label} (%)</text>
             {[0, 25, 50, 75, 100].map(value => <g key={value}>
               <line x1="36" x2="270" y1={225 - value * 1.7} y2={225 - value * 1.7} stroke="#e5e8ea" />
               <text x="28" y={229 - value * 1.7} textAnchor="end" fill="#69727a" fontSize="12">{value}</text>
             </g>)}
             {exp1Policies.slice(0, 2).map((baseline, index) => <g key={baseline.id}>
-              <line x1="36" x2="270" y1={225 - baseline[metric.key] * 1.7} y2={225 - baseline[metric.key] * 1.7} stroke={index === 0 ? "#8b9197" : "#526b61"} strokeWidth="1.2" strokeDasharray={index === 0 ? "3 4" : "7 4"} />
-              <line x1={36 + index * 122} x2={51 + index * 122} y1="282" y2="282" stroke={index === 0 ? "#8b9197" : "#526b61"} strokeDasharray={index === 0 ? "3 4" : "7 4"} />
-              <text x={56 + index * 122} y="286" fill={index === 0 ? "#747b82" : "#526b61"} fontSize="12">{baseline.label} {baseline[metric.key].toFixed(2)}%</text>
+              <line x1="36" x2="270" y1={225 - baseline[metric.key] * 1.7} y2={225 - baseline[metric.key] * 1.7} stroke={index === 0 ? "#97918b" : "#6f655c"} strokeWidth="1.2" strokeDasharray={index === 0 ? "3 4" : "7 4"} />
+              <line x1={36 + index * 122} x2={51 + index * 122} y1="282" y2="282" stroke={index === 0 ? "#97918b" : "#6f655c"} strokeDasharray={index === 0 ? "3 4" : "7 4"} />
+              <text x={56 + index * 122} y="286" fill={index === 0 ? "#77716c" : "#6f655c"} fontSize="12">{baseline.label} {baseline[metric.key].toFixed(2)}%</text>
             </g>)}
-            {([{ prefix: "pi0", color: "#24364b" }, { prefix: "pi05", color: "#a13c52" }] as const).map(series => {
+            {([{ prefix: "pi0", color: "#181a1b" }, { prefix: "pi05", color: "#a20f2d" }] as const).map(series => {
               const values = ["zs", "mt", "mt-st"].map(stage => exp1Policies.find(p => p.id === `${series.prefix}-${stage}`)![metric.key]);
               return <g key={series.prefix}>
                 <polyline points={values.map((v, i) => `${48 + i * 105},${225 - v * 1.7}`).join(" ")} fill="none" stroke={series.color} strokeWidth="2.5" />
@@ -432,8 +475,8 @@ function ExperimentOne() {
       <h3>Lemon Harvesting</h3>
       <div className="research-switches control-task-choice" aria-label="Demo policy">{(["act", "dp", "pi05"] as const).map(id => <button type="button" key={id} aria-pressed={policyId === id} onClick={() => setPolicyId(id)}>{labels[id]}</button>)}</div>
       <div className="experiment-video">
-        <VideoFrame src={source.mediaPath} label={`${labels[policyId]} Lemon Harvesting demo`} />
-        <p><strong>{labels[policyId]}</strong><span className={`demo-status ${source.success ? "is-success" : "is-failed"}`}>{source.success ? "Success" : "Failed"}</span></p>
+        <VideoFrame src={source.mediaPath} label={`${labels[policyId]} Lemon Harvesting demo`} describedBy="experiment-one-caption" />
+        <p id="experiment-one-caption"><strong>{labels[policyId]}</strong><span className={`demo-status ${source.success ? "is-success" : "is-failed"}`}>{source.success ? "Success" : "Failure"}</span></p>
       </div>
     </div>
   </div>;
@@ -459,18 +502,19 @@ function ExperimentTwo() {
       <div className="research-switches control-task-choice" aria-label="Comparison task">
         {(["press-button", "push-slider"] as const).map(task => <button type="button" key={task} aria-pressed={taskId === task} onClick={() => setTaskId(task)}>{task === "press-button" ? "Press Button" : "Push Slider"}</button>)}
       </div>
-      <div className="embodiment-metric-table control-metric-table">
-        <div className="embodiment-metric-header" aria-hidden="true"><span>Control interface</span>{columns.map(column => <span key={column.index} title={column.index === 4 ? "Fraction of timesteps with any rotor at a thrust limit" : column.index === 3 ? "Maximum roll-pitch tilt magnitude per rollout, in radians; averaged over successful rollouts" : "Task success rate over all evaluation rollouts"}>{column.label}</span>)}</div>
-        {controllerSetups.map((setup, index) => <button type="button" key={setup.id} className={`embodiment-metric-row ${controllerId === setup.id ? "is-active" : ""}`} aria-pressed={controllerId === setup.id} aria-label={`${setup.interface}, ${setup.controller}`} onClick={() => setControllerId(setup.id)}>
-          <strong>{setup.controller}<small>{setup.interface}</small></strong>
+      <div className="metric-table-scroll"><table className="embodiment-metric-table control-metric-table">
+        <caption className="sr-only">Policy and control comparison. Select a row to show its demonstration.</caption>
+        <thead><tr className="embodiment-metric-header"><th scope="col">Control interface</th>{columns.map(column => <th scope="col" key={column.index} title={column.index === 4 ? "Fraction of timesteps with any rotor at a thrust limit" : column.index === 3 ? "Maximum roll-pitch tilt magnitude per rollout, in radians; averaged over successful rollouts" : "Task success rate over all evaluation rollouts"}>{column.label}</th>)}</tr></thead>
+        <tbody>{controllerSetups.map((setup, index) => <tr key={setup.id} className={`embodiment-metric-row ${controllerId === setup.id ? "is-active" : ""}`} onClick={() => setControllerId(setup.id)}>
+          <th scope="row"><button type="button" aria-pressed={controllerId === setup.id} aria-label={`Show ${setup.interface}, ${setup.controller}`} onClick={() => setControllerId(setup.id)}><strong>{setup.controller}<small>{setup.interface}</small></strong></button></th>
           {columns.map((column, columnIndex) => {
             const value = controlTable[taskIndex * 5 + index][column.index].text.split("±")[0].trim();
-            return <span className={parseFloat(value) === bestValues[columnIndex] ? "is-best" : ""} key={column.index}>{value === "N/A" ? "—" : value + column.unit}</span>;
+            return <td className={parseFloat(value) === bestValues[columnIndex] ? "is-best" : ""} key={column.index}>{value === "N/A" ? "—" : value + column.unit}</td>;
           })}
-        </button>)}
-      </div>
+        </tr>)}</tbody>
+      </table></div>
     </div>
-    <div className="embodiment-video-panel"><div className="experiment-video"><VideoFrame src={source.mediaPath} label={`${taskId}: ${selectedSetup.controller} DP rollout`} /><p><strong>{taskId === "press-button" ? "Press Button" : "Push Slider"} · {selectedSetup.controller}</strong></p></div></div>
+    <div className="embodiment-video-panel"><div className="experiment-video"><VideoFrame src={source.mediaPath} label={`${taskId}: ${selectedSetup.controller} DP rollout`} describedBy="experiment-two-caption" /><p id="experiment-two-caption"><strong>{taskId === "press-button" ? "Press Button" : "Push Slider"} · {selectedSetup.controller}</strong></p></div></div>
   </div>;
 }
 
@@ -501,32 +545,30 @@ function ExperimentThree() {
           <span>Lower is better</span>
         </div>
         <p className="evaluation-context">¹ Position error divided by arm reach, in units of 10⁻². Saturation: fraction of timesteps with any rotor at a thrust limit.</p>
-        <div className="embodiment-metric-table">
-          <div className="embodiment-metric-header" aria-hidden="true">
-            <span>Embodiment</span>
-            {metricColumns.map((metric) => <span key={metric.key}>{metric.label}</span>)}
-          </div>
-          {exp3Embodiments.map((item) => (
-            <button
+        <div className="metric-table-scroll"><table className="embodiment-metric-table">
+          <caption className="sr-only">Embodiment tracking and actuation metrics. Select a row to show its demonstration.</caption>
+          <thead><tr className="embodiment-metric-header">
+            <th scope="col">Embodiment</th>
+            {metricColumns.map((metric) => <th scope="col" key={metric.key}>{metric.label}</th>)}
+          </tr></thead>
+          <tbody>{exp3Embodiments.map((item) => (
+            <tr
               className={`embodiment-metric-row ${item.id === embodimentId ? "is-active" : ""}`}
-              type="button"
-              aria-pressed={item.id === embodimentId}
-              aria-label={`${item.label}: EE error ${item.eeError}, base error ${item.baseError}, tilt ${item.tilt}, saturation ${item.saturation}%`}
               onClick={() => setEmbodimentId(item.id)}
               key={item.id}
             >
-              <strong>{item.label}</strong>
+              <th scope="row"><button type="button" aria-pressed={item.id === embodimentId} aria-label={`Show ${item.label} demonstration`} onClick={() => setEmbodimentId(item.id)}><strong>{item.label}</strong></button></th>
               {metricColumns.map((metric) => {
                 const value = item[metric.key];
                 return (
-                  <span className={value === bestValues[metric.key] ? "is-best" : ""} key={metric.key}>
+                  <td className={value === bestValues[metric.key] ? "is-best" : ""} key={metric.key}>
                     {value.toFixed(value < 1 ? 3 : 2)}{metric.unit}
-                  </span>
+                  </td>
                 );
               })}
-            </button>
-          ))}
-        </div>
+            </tr>
+          ))}</tbody>
+        </table></div>
       </div>
 
       <div className="embodiment-video-panel">
@@ -534,8 +576,9 @@ function ExperimentThree() {
           <VideoFrame
             src={exp3VideoByEmbodiment[selected.id]}
             label={`${selected.label} Push Slider embodiment comparison`}
+            describedBy="experiment-three-caption"
           />
-          <p><strong>{selected.label}</strong></p>
+          <p id="experiment-three-caption"><strong>{selected.label}</strong></p>
         </div>
       </div>
     </div>
@@ -614,7 +657,6 @@ function ResultsExplorer() {
         id="experiment-panel"
         role="tabpanel"
         aria-labelledby={`experiment-tab-${experiment}`}
-        tabIndex={0}
       >
         <StudyContext experiment={experiment} />
         {experiment === 1 && <ExperimentOne />}
@@ -628,6 +670,18 @@ function ResultsExplorer() {
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
 
   useEffect(() => {
     const sections = navItems
@@ -655,9 +709,10 @@ function Header() {
           <span>AM-Bench</span>
         </a>
         <button
+          ref={menuButtonRef}
           className="menu-toggle"
           type="button"
-          aria-label="Toggle navigation"
+          aria-label={`${menuOpen ? "Close" : "Open"} navigation`}
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
           onClick={() => setMenuOpen((open) => !open)}
@@ -699,6 +754,7 @@ const bibtex = `@article{wang2026ambench,
 function App() {
   useInitialHashTarget();
   const [copied, setCopied] = useState(false);
+  const [resultsState, setResultsState] = useUrlChoice("results", ["closed", "open"] as const, "closed");
 
   const copyCitation = async () => {
     await navigator.clipboard.writeText(bibtex);
@@ -712,7 +768,7 @@ function App() {
       <main id="main-content">
         <section className="hero" id="top">
           <div className="page-shell hero-layout">
-            <div className="hero-kicker"><span>CoRL 2026</span></div>
+            <div className="hero-kicker"><span>arXiv:2609.00641</span></div>
             <h1>
               <span className="hero-title-prefix">AM-Bench:</span>
               A Modular Simulation Suite and Benchmark for
@@ -791,14 +847,14 @@ function App() {
             <div className="embodiment-grid">
               {embodiments.map((embodiment, index) => (
                 <article className="embodiment-card" key={embodiment.id}>
-                  <VideoFrame src={embodiment.video} label={`${embodiment.name} embodiment rollout`} />
+                  <VideoFrame src={embodiment.video} label={`${embodiment.name} embodiment rollout`} describedBy={`embodiment-${embodiment.id}-caption`} />
                   <div className="embodiment-card-head">
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <span className="embodiment-actuation">{embodiment.category}</span>
                   </div>
-                  <h3><a href="/docs/configure/robots-and-profiles/">{embodiment.name}</a></h3>
+                  <h3>{embodiment.name}</h3>
                   <p className="embodiment-spec">{embodiment.spec}</p>
-                  <p>{embodiment.description}</p>
+                  <p id={`embodiment-${embodiment.id}-caption`}>{embodiment.description}</p>
                 </article>
               ))}
             </div>
@@ -830,10 +886,12 @@ function App() {
 
         <section className="results-section section-block" id="results">
           <div className="page-shell">
-            <p className="results-lead">Fine-tuning improves policy transfer; end-effector targets simplify coordination; robot actuation changes how the same task is executed.</p>
-            <details className="results-disclosure">
+            <SectionIntro title="Results">
+              <p>Fine-tuning improves policy transfer; end-effector targets simplify coordination; robot actuation changes how the same task is executed.</p>
+            </SectionIntro>
+            <details className="results-disclosure" open={resultsState === "open"} onToggle={(event) => setResultsState(event.currentTarget.open ? "open" : "closed")}>
               <summary>
-                <span><strong>Results and demonstrations</strong></span>
+                <span><strong>Studies and demonstrations</strong><small>Three controlled comparisons from the paper</small></span>
                 <span className="summary-toggle" aria-hidden="true">+</span>
               </summary>
               <ResultsExplorer />
@@ -852,7 +910,7 @@ function App() {
                 Standardized benchmarks have played a central role in advancing robot manipulation learning, yet most focus on ground-supported manipulation systems, which limits their applicability to dynamics-critical domains such as aerial manipulation (AM). AM presents distinct system-level challenges, including environmental disturbances, coupled dynamics between the manipulator and floating base, and constrained degrees of freedom. Consequently, task performance depends jointly on robot embodiment, low-level control, and high-level policy design.
               </p>
               <p>
-                We introduce AM-Bench, a modular simulation suite and benchmark for multirotor-based AM policy learning. AM-Bench includes representative embodiments spanning underactuated, fully actuated, and overactuated systems, 12 tasks across contact, transport, and constrained interaction, configurable aerodynamic disturbances and actuator saturation, standard low-level controllers, and baseline policy-learning algorithms. Unlike prior manipulation benchmarks that primarily emphasize end-to-end policy performance, AM-Bench enables system-level evaluation of how embodiment, control, disturbances, and policy choices interact. We demonstrate its diagnostic value through three simulation studies spanning high-level policies, policy–control interfaces, and embodiments, together with real-world validation of modeled effects and a hardware instantiation of the learning pipeline.
+                We introduce AM-Bench, a modular simulation suite and benchmark for multirotor-based AM policy learning. AM-Bench includes representative embodiments spanning underactuated, fully actuated, and overactuated systems, 12 tasks across contact, transport, and constrained interaction, configurable aerodynamic disturbances and actuator saturation, standard low-level controllers, and baseline policy-learning algorithms. Unlike prior manipulation benchmarks that primarily emphasize end-to-end policy performance, AM-Bench enables system-level evaluation of how embodiment, control, disturbances, and policy choices interact. We demonstrate its diagnostic value through three simulation studies spanning high-level policies, policy–control interfaces, and embodiments, together with real-world validation of modeled effects and a hardware test of the learning pipeline.
               </p>
             </div>
           </div>
@@ -887,7 +945,7 @@ function App() {
           </div>
           <div className="footer-contact">
             <p className="mini-label">Explore and reproduce</p>
-            <a href="https://github.com/ambench">AM-Bench on GitHub ↗</a>
+            <a href="https://github.com/ambench/ambench">AM-Bench on GitHub ↗</a>
             <a href="/docs/">Documentation ↗</a>
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useUrlChoice } from "../hooks/useUrlChoice";
 
 // Static, authored MathML only. Native layout preserves operators, limits, and scripts.
 const equations = {
@@ -20,9 +21,17 @@ const randomizationAxes = [
 ] as const;
 
 export function RandomizationStudy() {
-  const [panel, setPanel] = useState(0);
+  const [panelId, setPanelId] = useUrlChoice(
+    "variation",
+    randomizationAxes.map((item) => item.id),
+    "appearance",
+  );
+  const panel = randomizationAxes.findIndex((item) => item.id === panelId);
   const axis = randomizationAxes[panel];
-  const changePanel = (direction: number) => setPanel(current => (current + direction + randomizationAxes.length) % randomizationAxes.length);
+  const changePanel = (direction: number) => {
+    const next = (panel + direction + randomizationAxes.length) % randomizationAxes.length;
+    setPanelId(randomizationAxes[next].id);
+  };
   return <section className="variation-gallery" aria-labelledby="randomization-title">
     <h3 id="randomization-title">Task-level variation</h3>
     <div id="variation-panel" className="variation-panel" role="group" aria-roledescription="slide" aria-label={`${axis.label}, ${panel + 1} of 3`}>
@@ -37,33 +46,68 @@ export function RandomizationStudy() {
 }
 
 export function PolicyControlStudy() {
-  const [interfaceId, setInterfaceId] = useState<"ee" | "base">("ee");
-  const [controller, setController] = useState<"pid" | "l1" | "mpc">("pid");
+  const [interfaceId, setInterfaceId] = useUrlChoice("action", ["ee", "base"] as const, "ee");
+  const [controller, setController] = useUrlChoice("controller", ["pid", "l1", "mpc"] as const, "pid");
+
+  useEffect(() => {
+    if (interfaceId === "base" && controller === "mpc") setController("pid");
+  }, [controller, interfaceId, setController]);
   return <div className="policy-control-study">
-    <div className="policy-inputs">
-      <article><h3>Observe</h3><p>Configurable RGB views from the base and end effector combine with proprioception: base and end-effector state, arm joints, and gripper state.</p></article>
-      <article><h3>Choose a target</h3><p>Imitation-learning and vision-language-action policies use a shared action interface. Task conditioning specifies the objective; the action specifies the next desired robot configuration or end-effector pose.</p></article>
-      <article><h3>Realize the motion</h3><p>The low-level pipeline coordinates the floating base and arm. It produces a base wrench and joint references, which the robot executes within its actuation limits.</p></article>
-    </div>
-    <h3 className="interface-step">What does the policy command?</h3>
-    <div className="research-switches interface-choice" aria-label="Policy action interface">
-      <button type="button" aria-pressed={interfaceId === "ee"} onClick={() => setInterfaceId("ee")}>End-effector targets</button>
-      <button type="button" aria-pressed={interfaceId === "base"} onClick={() => { setInterfaceId("base"); if (controller === "mpc") setController("pid"); }}>Base + joint targets</button>
-    </div>
-    <div className="interface-definition">
-      <p>{interfaceId === "ee" ? "The action specifies a target end-effector pose and gripper command. This task-agnostic, low-dimensional interface is defined in end-effector space, supports intuitive teleoperation, and simplifies visuomotor policy learning." : "This interface allows the policy to command the drone base pose and manipulator joint angles simultaneously, providing flexibility for whole-body coordination tasks. The target base pose comprises position and quaternion orientation, together with target manipulator joint angles."}</p>
-      <Equation id={interfaceId} label={interfaceId === "ee" ? "End-effector action, Appendix A.3" : "Base and joint action in paper ordering, Appendix A.3"} />
-
-    </div>
-    <h3 className="interface-step">How is the target executed?</h3>
-    <div className="research-switches" aria-label="Controller">{(["pid", "l1", ...(interfaceId === "ee" ? ["mpc"] : [])] as Array<"pid" | "l1" | "mpc">).map(id => <button type="button" key={id} aria-pressed={controller === id} onClick={() => setController(id)}>{id === "pid" ? "Geometric PID" : id === "l1" ? "L₁ adaptive" : "Whole-body MPC"}</button>)}</div>
-    <div className="control-formulations" aria-live="polite">
-      {interfaceId === "ee" && controller !== "mpc" && <article><h3>Inverse kinematics</h3><p>At each control step, the IK jointly optimizes the aerial base pose and the manipulator joint angles so that the end-effector tracks a desired pose while maintaining smooth whole-body motion and satisfying kinematic safety constraints.</p><Equation id="ik" label="Constrained inverse kinematics, paper Equation 2" /></article>}
-      <article><h3>{controller === "pid" ? "Base tracking" : controller === "l1" ? "Adaptive compensation" : "Whole-body optimization"}</h3>
-        <p>{controller === "pid" ? "Geometric PID tracks the desired base trajectory and computes a body wrench; the arm tracks its joint references with an independent position controller. For underactuated robots, lateral acceleration requires tilt. The force law below is for fully actuated platforms." : controller === "l1" ? "L₁ adaptive control augments nominal geometric tracking with estimated force and torque disturbances. This helps compensate for model mismatch and external forces while preserving the same state and command interfaces." : "Whole-body MPC jointly optimizes the base wrench and manipulator joint references over a finite prediction horizon. Coordinating both parts in one constrained optimization accounts for their coupled motion and available actuation."}</p>
-        <Equation id={controller} label={controller === "pid" ? "Translational PID force, paper Equation 6" : controller === "l1" ? "Adaptive compensation, Appendix A.4.3" : "MPC objective and constraints, paper Equation 12"} />
-
+    <div className="policy-pipeline" aria-label="Policy and control pipeline">
+      <article className="policy-pipeline-step">
+        <span>01 · Observation</span>
+        <h3>Observe</h3>
+        <p>RGB views from the base and end effector combine with base state, end-effector state, arm joints, and gripper state.</p>
       </article>
+      <span className="policy-pipeline-arrow" aria-hidden="true">→</span>
+      <article className="policy-pipeline-step is-interface">
+        <span>02 · Action interface</span>
+        <h3>Choose a target</h3>
+        <p>The policy specifies either the next end-effector pose or the next base pose and arm configuration.</p>
+      </article>
+      <span className="policy-pipeline-arrow" aria-hidden="true">→</span>
+      <article className="policy-pipeline-step">
+        <span>03 · Control</span>
+        <h3>Realize the motion</h3>
+        <p>The low-level pipeline converts the selected target into base wrench and joint references within the robot’s actuation limits.</p>
+      </article>
+    </div>
+    <div className="policy-control-workbench">
+      <section className="policy-control-stage interface-stage" aria-labelledby="interface-stage-title">
+        <header className="policy-control-stage-header">
+          <span>01</span>
+          <div>
+            <p>Action interface</p>
+            <h3 id="interface-stage-title">What does the policy command?</h3>
+          </div>
+        </header>
+        <div className="research-switches interface-choice" aria-label="Policy action interface">
+          <button type="button" aria-pressed={interfaceId === "ee"} onClick={() => setInterfaceId("ee")}>End-effector targets</button>
+          <button type="button" aria-pressed={interfaceId === "base"} onClick={() => { setInterfaceId("base"); if (controller === "mpc") setController("pid"); }}>Base + joint targets</button>
+        </div>
+        <div className="interface-definition">
+          <p>{interfaceId === "ee" ? "The action specifies a target end-effector pose and gripper command. This task-agnostic, low-dimensional interface is defined in end-effector space, supports intuitive teleoperation, and simplifies visuomotor policy learning." : "This interface allows the policy to command the drone base pose and manipulator joint angles simultaneously, providing flexibility for whole-body coordination tasks. The target base pose comprises position and quaternion orientation, together with target manipulator joint angles."}</p>
+          <Equation id={interfaceId} label={interfaceId === "ee" ? "End-effector action, Appendix A.3" : "Base and joint action in paper ordering, Appendix A.3"} />
+        </div>
+      </section>
+      <div className="policy-control-connector" aria-hidden="true"><span>target</span><b>↓</b></div>
+      <section className="policy-control-stage controller-stage" aria-labelledby="controller-stage-title">
+        <header className="policy-control-stage-header">
+          <span>02</span>
+          <div>
+            <p>Low-level control</p>
+            <h3 id="controller-stage-title">How is the target executed?</h3>
+          </div>
+        </header>
+        <div className="research-switches controller-choice" aria-label="Controller">{(["pid", "l1", ...(interfaceId === "ee" ? ["mpc"] : [])] as Array<"pid" | "l1" | "mpc">).map(id => <button type="button" key={id} aria-pressed={controller === id} onClick={() => setController(id)}>{id === "pid" ? "Geometric PID" : id === "l1" ? "L₁ adaptive" : "Whole-body MPC"}</button>)}</div>
+        <div className="control-formulations">
+          {interfaceId === "ee" && controller !== "mpc" && <article><h4>Inverse kinematics</h4><p>At each control step, the IK jointly optimizes the aerial base pose and the manipulator joint angles so that the end-effector tracks a desired pose while maintaining smooth whole-body motion and satisfying kinematic safety constraints.</p><Equation id="ik" label="Constrained inverse kinematics, paper Equation 2" /></article>}
+          <article><h4>{controller === "pid" ? "Base tracking" : controller === "l1" ? "Adaptive compensation" : "Whole-body optimization"}</h4>
+            <p>{controller === "pid" ? "Geometric PID tracks the desired base trajectory and computes a body wrench; the arm tracks its joint references with an independent position controller. For underactuated robots, lateral acceleration requires tilt. The force law below is for fully actuated platforms." : controller === "l1" ? "L₁ adaptive control augments nominal geometric tracking with estimated force and torque disturbances. This helps compensate for model mismatch and external forces while preserving the same state and command interfaces." : "Whole-body MPC jointly optimizes the base wrench and manipulator joint references over a finite prediction horizon. Coordinating both parts in one constrained optimization accounts for their coupled motion and available actuation."}</p>
+            <Equation id={controller} label={controller === "pid" ? "Translational PID force, paper Equation 6" : controller === "l1" ? "Adaptive compensation, Appendix A.4.3" : "MPC objective and constraints, paper Equation 12"} />
+          </article>
+        </div>
+      </section>
     </div>
   </div>;
 }

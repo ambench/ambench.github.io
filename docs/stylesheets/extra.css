@@ -1,7 +1,65 @@
 :root {
-  --md-primary-fg-color: #294f6d;
-  --md-primary-fg-color--light: #496f8d;
-  --md-primary-fg-color--dark: #17374f;
+  --md-primary-fg-color: #a20f2d;
+  --md-primary-fg-color--light: #c53a55;
+  --md-primary-fg-color--dark: #790a21;
+  --md-accent-fg-color: #a20f2d;
+  --md-accent-fg-color--transparent: rgba(162, 15, 45, 0.12);
+  --md-text-font: "Manrope";
+  --md-code-font: "DM Mono";
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/static/fonts/manrope-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/static/fonts/dm-mono-400-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/static/fonts/dm-mono-500-latin.woff2") format("woff2");
+}
+
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #f5f2ec;
+  --md-default-fg-color: #181a1b;
+  --md-default-fg-color--light: #5f5a55;
+  --md-default-fg-color--lighter: #8d8882;
+  --md-default-fg-color--lightest: #d8d2ca;
+  --md-code-bg-color: #ece8e1;
+  --md-typeset-a-color: #8e0d27;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #a20f2d;
+  --md-primary-fg-color--light: #c53a55;
+  --md-primary-fg-color--dark: #790a21;
+  --md-accent-fg-color: #e06d83;
+  --md-default-bg-color: #181a1b;
+  --md-code-bg-color: #232526;
+  --md-typeset-a-color: #ef879a;
+}
+
+.md-header {
+  box-shadow: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  border-radius: 0.2rem;
 }
 
 .md-grid {

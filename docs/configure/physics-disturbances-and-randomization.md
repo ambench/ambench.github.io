@@ -12,9 +12,11 @@ AM-Bench separates shared simulation timing, multirotor actuation and aerodynami
 | `enable_observation_noise` | Apply `observation_noise_model` to the policy observation | If enabled without a model, the config creates additive Gaussian noise with standard deviation `0.002` and an additive-bias model with standard deviation `0.0001` |
 | `enable_saturation` | Clamp allocated rotor thrust to the selected robot's limits | Required when transient rotor dynamics are configured |
 | `enable_aerodynamic_effects` | Enable ground effect, near-wall effect, and body-frame drag | Also enables scene-query support before simulator construction |
-| `enable_wind_effect` | Add the implemented constant world-frame wind force | Current implementation uses `[6.0, 6.0, 6.0]` N; it is a boolean preset, not a configurable vector |
+| `enable_wind_effect` | Apply the configured constant world-frame force | The vector comes from `robot.multirotor.aerodynamics.wind_force_w`; its default is `(0.0, 0.0, 0.0)` N |
 
 Noise models may use other Isaac Lab noise configs, but their tensor shape must remain compatible with the selected action or policy observation.
+
+Wind is configurable through the selected robot specification. Set `wind_force_w` to the desired `(x, y, z)` force in world coordinates and enable `enable_wind_effect` on the environment. Because the default vector is zero, enabling the switch alone does not introduce a disturbance. Define the value on a copied or derived robot profile when creating a new registered environment so the shared profiles remain unchanged.
 
 ## Multirotor actuation
 
@@ -34,7 +36,7 @@ For a multirotor controller step, the implementation order is:
 4. apply optional rotor response and normalized-acceleration limits;
 5. apply ground and near-wall effects to rotor thrust vectors;
 6. reconstruct the realized body wrench;
-7. add body-frame drag and optional world-frame wind.
+7. add body-frame drag and the configured world-frame wind force.
 
 The EE oracle has no `MultirotorSpecCfg`, so rotor allocation, saturation, proximity effects, drag, and wind do not represent a physical aerial platform on that profile.
 

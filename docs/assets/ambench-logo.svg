@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">AM-Bench — Hover and grasp</title>
+  <desc id="desc">A hovering multirotor with an articulated arm grasping a small object, on a crimson square.</desc>
+  <rect width="256" height="256" rx="40" fill="#B50930"/>
+  <g fill="none" stroke="#FFF" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M55 85h146M69 71v31m118-31v31"/>
+    <path d="M37 62h64m54 0h64"/>
+    <path d="m96 86 16 23h32l16-23"/>
+    <path d="M128 110v28l30 21-19 26"/>
+    <path d="m120 174-12 18 14 17m32-12-12 18-20-6"/>
+  </g>
+  <circle cx="128" cy="138" r="10" fill="#FFF"/>
+  <path d="m125 186 16 11-11 16-16-11z" fill="#F1A6B7"/>
+</svg>
