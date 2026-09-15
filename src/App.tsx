@@ -768,7 +768,7 @@ function App() {
       <main id="main-content">
         <section className="hero" id="top">
           <div className="page-shell hero-layout">
-            <div className="hero-kicker"><span>arXiv:2609.00641</span></div>
+            <div className="hero-kicker"><span>CoRL 2026</span></div>
             <h1>
               <span className="hero-title-prefix">AM-Bench:</span>
               A Modular Simulation Suite and Benchmark for

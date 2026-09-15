@@ -2047,7 +2047,7 @@ body {
 .hero-layout { padding-top: 48px; padding-bottom: 44px; }
 .hero-kicker { margin-bottom: 20px; }
 .hero h1 { max-width: 1100px; font-size: clamp(2.125rem, 4.2vw, 3.75rem); line-height: 1.16; letter-spacing: -.035em; margin-bottom: 24px; }
-.hero h1 .hero-title-prefix { font-size: .7em; margin-bottom: .25em; }
+.hero h1 .hero-title-prefix { font-size: 1.2em; margin-bottom: .12em; }
 .hero h1 .hero-topic { text-decoration: none; }
 .hero-contribution { max-width: 64ch; margin: 0 0 24px; font-size: 1.125rem; line-height: 1.6; }
 .author-list { font-size: 1rem; gap: 8px 20px; }
@@ -2120,6 +2120,7 @@ body {
   .section-block { padding: 44px 0; }
   .hero-layout { padding-top: 32px; padding-bottom: 32px; }
   .hero h1 { font-size: 2.125rem; line-height: 1.18; letter-spacing: -.025em; }
+  .hero h1 .hero-title-prefix { font-size: 1.12em; }
   .hero-contribution { font-size: 1rem; }
   .author-list { font-size: 1rem; }
   .section-intro h2,
