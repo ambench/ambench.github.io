@@ -802,15 +802,26 @@ function App() {
           </div>
         </section>
 
-        {/* Overview video reserved for the final hardware-inclusive edit.
-        <section className="overview-video section-block">
+        <section className="overview-video" id="overview" aria-labelledby="overview-heading">
           <div className="page-shell">
-            <div className="overview-stage" role="img" aria-label="Overview video in preparation">
-              <div className="overview-stage-label"><span>Overview video</span><small>Coming soon</small></div>
+            <div className="overview-content">
+              <h2 id="overview-heading">Overview video</h2>
+              <video
+                className="overview-player"
+                controls
+                playsInline
+                preload="none"
+                poster="/static/publication/overview/ambench-overview.jpg"
+                width="1920"
+                height="1080"
+                aria-label="AM-Bench overview: hardware, simulation tasks, modular interfaces, robot embodiments, and physical effects"
+              >
+                <source src="/static/publication/overview/ambench-overview.mp4" type="video/mp4" />
+                <a href="/static/publication/overview/ambench-overview.mp4">Watch the AM-Bench overview video</a>.
+              </video>
             </div>
           </div>
         </section>
-        */}
 
         <section className="architecture-section section-block" id="architecture">
           <div className="page-shell">

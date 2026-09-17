@@ -2062,10 +2062,11 @@ body {
 .section-intro-copy { max-width: 72ch; font-size: var(--text-body); line-height: 1.6; }
 
 
-.overview-video { padding: 28px 0; }
-.overview-stage { width: 100%; max-width: 860px; aspect-ratio: auto; padding: 24px; background: #f4f5f6; border-color: var(--line); color: var(--ink); }
-.overview-stage-label,
-.overview-stage-label small { color: var(--muted); font-size: var(--text-small); }
+.overview-video { padding: 28px 0 48px; }
+.overview-content { max-width: 1040px; margin: 0 auto; }
+.overview-content h2 { margin: 0 0 24px; font-size: var(--text-section); line-height: 1.2; letter-spacing: -.03em; }
+.overview-player { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border: 1px solid var(--line); background: var(--ink); }
+.overview-player:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
 .task-group-trigger { min-height: 100px; grid-template-columns: 40px minmax(0, 1fr) 90px 34px; gap: 16px; }
 .task-group-heading strong { font-size: 1.375rem; line-height: 1.35; }
 .task-group-heading small { display: block; font-size: var(--text-body); line-height: 1.6; margin-top: 8px; }
