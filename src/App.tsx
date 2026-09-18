@@ -811,13 +811,13 @@ function App() {
                 controls
                 playsInline
                 preload="none"
-                poster="/static/publication/overview/ambench-overview.jpg"
+                poster="/static/publication/overview/ambench-overview-v13.jpg"
                 width="1920"
                 height="1080"
                 aria-label="AM-Bench overview: hardware, simulation tasks, modular interfaces, robot embodiments, and physical effects"
               >
-                <source src="/static/publication/overview/ambench-overview.mp4" type="video/mp4" />
-                <a href="/static/publication/overview/ambench-overview.mp4">Watch the AM-Bench overview video</a>.
+                <source src="/static/publication/overview/ambench-overview-v13.mp4" type="video/mp4" />
+                <a href="/static/publication/overview/ambench-overview-v13.mp4">Watch the AM-Bench overview video</a>.
               </video>
             </div>
           </div>
